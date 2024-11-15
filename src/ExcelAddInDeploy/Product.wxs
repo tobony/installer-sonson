@@ -1,17 +1,30 @@
 ﻿
 <!-- TODO 1/5: Set these two values (make a new Guid for the ProductUpgradeCode)  -->
-<?define ProductVersion = "1.0.1"?>
+<?define ProductVersion = "1.0.0.0"?>
 <?define ProductUpgradeCode = "{697DC734-59CD-43DB-BD0B-959CB783527F}"?>
 
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
-  <Package Name="!(loc.ProductName)" Language="!(loc.LANG)" Version="$(var.ProductVersion)" Manufacturer="!(loc.ProductManufacturer)" UpgradeCode="$(var.ProductUpgradeCode)" InstallerVersion="200" Scope="perUser"><SummaryInformation Manufacturer="!(loc.ProductManufacturer)" Description="!(loc.ProductDescription)" />
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" 
+	 xmlns:netfx="http://wixtoolset.org/schemas/v4/wxs/netfx" 
+	 xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+  <Package Name="!(loc.ProductName)" 
+		   Language="!(loc.LANG)" 
+		   Version="$(var.ProductVersion)" 
+		   Manufacturer="!(loc.ProductManufacturer)" 
+		   UpgradeCode="$(var.ProductUpgradeCode)" 
+		   InstallerVersion="200" 
+		   Scope="perUser">
+	  
+	  <SummaryInformation Manufacturer="!(loc.ProductManufacturer)" 
+						  Description="!(loc.ProductDescription)" />
     
     <MediaTemplate EmbedCab="yes" />
-    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" />
+    <MajorUpgrade Schedule="afterInstallInitialize" 
+				  DowngradeErrorMessage="A newer version of [ProductName] is already installed." 
+				  AllowSameVersionUpgrades="yes" />
 
-    <WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.jpg" />
-    <WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.jpg" />
-    <WixVariable Id="WixUILicenseRtf" Value="Resources\EULA.rtf" />
+    <!--<WixVariable Id="WixUIBannerBmp" Value="Resources\Banner.jpg" />-->
+    <!--<WixVariable Id="WixUIDialogBmp" Value="Resources\Dialog.jpg" />-->
+    <!--<WixVariable Id="WixUILicenseRtf" Value="Resources\EULA.rtf" />-->
 
 
     <!-- ICONS -->
@@ -22,20 +35,17 @@
     
 
     <!-- There must be a feature in the project and all components must be installed into the feature to be installed. -->
-    <Feature Id="ExcelAddIn" Title="!(loc.ProductName)" Description="!(loc.ProductDescription)" Level="1" AllowAdvertise="no">
+    <Feature Id="ExcelAddIn" 
+			 Title="!(loc.ProductName)" 
+			 Description="!(loc.ProductDescription)" 
+			 Level="1" AllowAdvertise="no">
       <ComponentGroupRef Id="XLLDistributables" />
     </Feature>
 
-    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
-    <Launch Condition="Installed OR NETFRAMEWORK40CLIENT" Message="[ProductName] requires .NET Framework 4.0." />
-    <UI Id="UI">
-       <!--See http://wix.sourceforge.net/manual-wix3/WixUI_index.htm for more information
-       The following line adds the minimal WiX Dialog set to the install--> 
-      <ui:WixUI Id="WixUI_Minimal" />
-      <!-- This TextStyle is used in the CustonMessages.wxl file -->
-      <TextStyle Id="Black10" FaceName="Tahoma" Size="10" Red="0" Green="0" Blue="0" Bold="yes" />
-    </UI>
-    <!--IMPORTANT ALL MS OFFICE SUPPORTED VERSIONS ARE HERE: Office 2003, 2007, 2010, 2013, 2016 Keep it uptodate-->
+    <!--<PropertyRef Id="NETFRAMEWORK40CLIENT" />-->
+    <!--<Launch Condition="Installed OR NETFRAMEWORK40CLIENT" Message="[ProductName] requires .NET Framework 4.0." />-->
+   
+	  <!--IMPORTANT ALL MS OFFICE SUPPORTED VERSIONS ARE HERE: Office 2003, 2007, 2010, 2013, 2016 Keep it uptodate-->
     <!-- these numbers will be parsed individually in the custom actions with InvariantCulture and NumberStyles.Any -->
     <Property Id="OFFICEREGKEYS" Value="11.0,12.0,14.0,15.0,16.0" />
     <Property Id="XLL32" Value="!(loc.ProductNameNoSpace)32.xll" />
@@ -77,8 +87,16 @@
       <Custom Action="Action_UnRegisterAddIn" After="Action_UnRegisterAddIn.SetProperty" Condition="Installed AND NOT UPGRADINGPRODUCTCODE" />
     </AdminExecuteSequence>
 
-  
-      <StandardDirectory Id="ProgramFilesFolder">
+
+
+	  <!-- for Directory setting
+	  CommonFiles6432Folder   
+	  ProgramFiles6432Folder // 32bit - ProgramFilesFolder, c:\Program Files (x86)
+	                         // 64bit - ProgramFilesFolder, c:\Program Files
+	  System6432Folder
+	  -->
+	  
+	  <StandardDirectory Id="ProgramFilesFolder">
         <Directory Id="COMPANYDIR" Name="!(loc.ProductManufacturer)" />
       </StandardDirectory>
       <StandardDirectory Id="AppDataFolder">
@@ -101,8 +119,10 @@
         <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\!(loc.ProductNameNoSpace)" Name="Xll32Bit" Value="AddIns" KeyPath="yes" Type="string" />
 
         <!-- TODO 3/5: Set the Source path to the 32-bit xll location -->
-        <File Id="EXCELXLL32PACKED.XLL" Name="!(loc.ProductNameNoSpace)32.xll" Source="C:\Work\GitHub\govert\Test-WiXInstaller\Source\Test\bin\Debug\net472\publish\Test-AddIn-packed.xll">
-          <netfx:NativeImage Id="ngen_32Xll" Platform="32bit" Priority="0" />
+        <File Id="EXCELXLL32PACKED.XLL" 
+			  Name="!(loc.ProductNameNoSpace)32.xll" 
+			  Source="Resources\Test-AddIn-packed.xll">
+          <!--<netfx:NativeImage Id="ngen_32Xll" Platform="32bit" Priority="0" />-->
         </File>
       </Component>
       <!-- TODO 4/5: Make a new Guid for the Component  -->
@@ -110,8 +130,10 @@
         <RegistryValue Root="HKCU" Key="Software\!(loc.ProductManufacturer)\!(loc.ProductNameNoSpace)" Name="Xll64Bit" Value="AddIns" KeyPath="yes" Type="string" />
         
         <!-- TODO 5/5: Set the Source path to the 32-bit xll location -->
-        <File Id="EXCELXLL64PACKED.XLL" Name="!(loc.ProductNameNoSpace)64.xll" Source="C:\Work\GitHub\govert\Test-WiXInstaller\Source\Test\bin\Debug\net472\publish\Test-AddIn64-packed.xll">
-          <netfx:NativeImage Id="ngen_64Xll" Platform="64bit" Priority="0" />
+        <File Id="EXCELXLL64PACKED.XLL" 
+			  Name="!(loc.ProductNameNoSpace)64.xll" 
+			  Source="Resources\Test-AddIn64-packed.xll">
+          <!--<netfx:NativeImage Id="ngen_64Xll" Platform="64bit" Priority="0" />-->
         </File>
         
         <RemoveFile On="uninstall" Id="XLL32" Directory="AddinFolder" Name="!(loc.ProductNameNoSpace)32.xll" />

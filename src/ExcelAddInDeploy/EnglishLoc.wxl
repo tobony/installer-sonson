@@ -3,9 +3,9 @@
   <String Id="ProductName" Value="Test Add-In" />
   <String Id="ProductNameNoSpace" Value="Test-AddIn" />
   <String Id="ProductDescription" Value="Installer for Test Excel Add-In" />
-  <String Id="ProductManufacturer" Value="theangkko" />
-  <String Id="ProductVersion" Value="1" />
-  <String Id="ProductCopyright" Value="(c) 2023 theangkko" />
+  <String Id="ProductManufacturer" Value="brbrsoft" />
+  <String Id="ProductVersion" Value="1.0.0.0" />
+  <String Id="ProductCopyright" Value="(c) 2023 tobony" />
   <String Id="ProductUninstallDescription" Value="Uninstall !(loc.ProductName)" />
   <String Id="AppName" Value="!(loc.ProductName)" />
 </WixLocalization>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   
       <Description>Sample managed custom actions</Description>
@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="WixToolset.Dtf.CustomAction" Version="4.0.0" />
+    <PackageReference Include="WixToolset.Dtf.WindowsInstaller" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
